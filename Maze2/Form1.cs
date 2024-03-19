@@ -17,13 +17,13 @@ namespace Maze2
         int[,] mazeOriginal1 =
         {
             { 1,1,1,1,1,1,1,1,1,1,1}, // 1
-            { 1,2,2,2,2,4,2,2,2,2,1}, // 2
+            { 1,5,2,2,2,4,2,2,2,5,1}, // 2
             { 1,2,1,1,1,2,1,1,1,2,1}, // 3
             { 1,2,1,2,2,2,2,2,1,2,1}, // 4
             { 1,2,2,2,1,1,1,2,2,2,1},
             { 1,2,1,2,2,2,2,2,1,2,1}, // 4
             { 1,2,1,1,1,3,1,1,1,2,1}, // 3
-            { 1,2,2,2,2,2,2,2,2,2,1}, // 2
+            { 1,5,2,2,2,2,2,2,2,5,1}, // 2
             { 1,1,1,1,1,1,1,1,1,1,1}  // 1
         };
 
@@ -76,7 +76,7 @@ namespace Maze2
         const int _dot = 2;
         const int _pacman = 3;
         const int _ghost = 4;
-
+        const int _powerpellet = 5;
         /// <summary>
         /// Dessa konstanter används för att hålla koll på vilken riktning
         /// som spöken och Pacman ska röra sig.
@@ -87,6 +87,10 @@ namespace Maze2
         const int _left = 2;
         const int _up = 3;
 
+
+        int _elapsedPowerUpTime = 0;
+        const int _maximumPowerUpTime = 20;
+        bool _poweredUp = false;
         /// <summary>
         /// Pacmans X-position
         /// </summary>
@@ -271,6 +275,17 @@ namespace Maze2
                             i * _blockSize + _blockSize / 4,
                             j * _blockSize + _blockSize / 4,
                             // Fyll halva blockets storlek
+                            _blockSize / 4,
+                            _blockSize / 4
+                            );
+                    }
+                    if (maze[j, i] == _powerpellet)
+                    {
+                        g.FillEllipse(
+                            dot,
+                            i * _blockSize + _blockSize / 4,
+                            j * _blockSize + _blockSize / 4,
+                            // Fyll halva blockets storlek
                             _blockSize / 2,
                             _blockSize / 2
                             );
@@ -387,6 +402,17 @@ namespace Maze2
             // annars skippar vi koden och gå vidare med spökena
             if (_alive)
             {
+                if (_poweredUp && _elapsedPowerUpTime < _maximumPowerUpTime)
+                {
+                    _elapsedPowerUpTime++;
+                }
+
+                if (_elapsedPowerUpTime == _maximumPowerUpTime)
+                {
+                    _poweredUp = false;
+                    _elapsedPowerUpTime = 0;
+                }
+
                 // Vilken riktning har vi fått från keydown?
                 if (pacmanDirection == _left)
                 {
@@ -433,6 +459,12 @@ namespace Maze2
                     // Minska hur många prickar det finns i labyrinten
                     numDots--;
                 }
+                if (maze[pacmanY, pacmanX] == _powerpellet)
+                {
+                    _poweredUp = true;
+                    score += 5;
+
+                }
 
                 // Sätt ut ett tomrum där Pacman stod förut
                 // Om Pacman flyttats tillbaka till oldX, oldY
@@ -467,86 +499,180 @@ namespace Maze2
             // Vi går igeom alla spökena i listan ett efter ett
             // och gör allt som ska göras för varje spöke innan
             // vi går vidare till nästa
-            for (int i = 0; i < ghosts.Count; i++)
+            if (ghosts.Count != 0)
             {
-                // Spara undan nuvarande position. Precis som i fallet
-                // med Pacman så vill vi kunna flytta tillbaka spöket
-                // om det kolliderar med något
-                oldX = ghosts[i].x;
-                oldY = ghosts[i].y;
-
-                // Åt vilket håll är spöket på väg?
-
-                // Ska det åt höger?
-                if (ghosts[i].direction == _right)
+                for (int i = ghosts.Count - 1; i >= 0; i--)
                 {
-                    // Höger betyder att vi ökar X-positionen
-                    ghosts[i].x++;
+                    // Spara undan nuvarande position. Precis som i fallet
+                    // med Pacman så vill vi kunna flytta tillbaka spöket
+                    // om det kolliderar med något
+                    oldX = ghosts[i].x;
+                    oldY = ghosts[i].y;
+
+                    // Åt vilket håll är spöket på väg?
+
+                    // Ska det åt höger?
+                    if (ghosts[i].direction == _right)
+                    {
+                        // Höger betyder att vi ökar X-positionen
+                        ghosts[i].x++;
+                    }
+
+                    if (ghosts[i].direction == _down)
+                    {
+                        ghosts[i].y++;
+                    }
+
+                    if (ghosts[i].direction == _left)
+                    {
+                        ghosts[i].x--;
+                    }
+
+                    if (ghosts[i].direction == _up)
+                    {
+                        ghosts[i].y--;
+                    }
+
+                    // Körde vi in i en Pacman?
+                    if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
+                    {
+                        // Döda Pacman
+                        _alive = false;
+
+                        // Ta bort Pacman från labyrinten
+                        maze[pacmanY, pacmanX] = _empty;
+                    }
+                    else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
+                    {
+                        maze[ghosts[i].y, ghosts[i].x] = _empty;
+                        ghosts.RemoveAt(i);
+                        continue;
+                    }
+
+                    // Har vi krockat med en vägg eller ett annat spöke?
+                    if (maze[ghosts[i].y, ghosts[i].x] == _wall ||
+                        maze[ghosts[i].y, ghosts[i].x] == _ghost)
+                    {
+                        // Flytta tillbaka spöket till den tidigare
+                        // positionen
+                        ghosts[i].x = oldX;
+                        ghosts[i].y = oldY;
+
+                        // Öka i vilken riktning spöket ska gå.
+                        // Spöket kan röra sig i rikningarna som vi angav
+                        // som konstanter i början av koden. Dvs, _right = 0,
+                        // osv. Om spöket var på väg åt höger så ökar vi riktningen
+                        // då blir den 1, vilket betyder att den ska gå neråt
+                        // Osv...
+                        ghosts[i].direction++;
+
+                        // Vi har fyra möjliga riktningar. Om direction är över
+                        // 3 (dvs, uppåt), så kommer vår kära modulo att göra så att den
+                        // går över till 0.
+                        ghosts[i].direction %= 4;
+                    }
+
+                    // Först av allt måste vi lägga tillbaka det som låg
+                    // på spökets förra position. Annars skulle det "äta"
+                    // upp saker som prickarna. leaveBehind sätt till att
+                    // det är en prick när spöket skapas. Så första gången
+                    // kommer spöket alltid att lämnan en prick efter sig.
+                    maze[oldY, oldX] = ghosts[i].leaveBehind;
+
+                    // Spara undan det som ligger på spökets nya position
+                    // så vi inte äter/skriver över det.
+                    ghosts[i].leaveBehind = maze[ghosts[i].y, ghosts[i].x];
+
+                    // Sätt ut spöket på sin nya position
+                    maze[ghosts[i].y, ghosts[i].x] = _ghost;
                 }
 
-                if (ghosts[i].direction == _down)
+
+                for (int i = ghosts.Count; i >= 0; i--)
                 {
-                    ghosts[i].y++;
+                    // Spara undan nuvarande position. Precis som i fallet
+                    // med Pacman så vill vi kunna flytta tillbaka spöket
+                    // om det kolliderar med något
+                    oldX = ghosts[i].x;
+                    oldY = ghosts[i].y;
+
+                    // Åt vilket håll är spöket på väg?
+
+                    // Ska det åt höger?
+                    if (ghosts[i].direction == _right)
+                    {
+                        // Höger betyder att vi ökar X-positionen
+                        ghosts[i].x++;
+                    }
+
+                    if (ghosts[i].direction == _down)
+                    {
+                        ghosts[i].y++;
+                    }
+
+                    if (ghosts[i].direction == _left)
+                    {
+                        ghosts[i].x--;
+                    }
+
+                    if (ghosts[i].direction == _up)
+                    {
+                        ghosts[i].y--;
+                    }
+
+                    // Körde vi in i en Pacman?
+                    if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
+                    {
+                        // Döda Pacman
+                        _alive = false;
+
+                        // Ta bort Pacman från labyrinten
+                        maze[pacmanY, pacmanX] = _empty;
+                    }
+                    else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
+                    {
+                        maze[ghosts[i].y, ghosts[i].x] = _empty;
+                        ghosts.RemoveAt(i);
+                    }
+
+                    // Har vi krockat med en vägg eller ett annat spöke?
+                    if (maze[ghosts[i].y, ghosts[i].x] == _wall ||
+                        maze[ghosts[i].y, ghosts[i].x] == _ghost)
+                    {
+                        // Flytta tillbaka spöket till den tidigare
+                        // positionen
+                        ghosts[i].x = oldX;
+                        ghosts[i].y = oldY;
+
+                        // Öka i vilken riktning spöket ska gå.
+                        // Spöket kan röra sig i rikningarna som vi angav
+                        // som konstanter i början av koden. Dvs, _right = 0,
+                        // osv. Om spöket var på väg åt höger så ökar vi riktningen
+                        // då blir den 1, vilket betyder att den ska gå neråt
+                        // Osv...
+                        ghosts[i].direction++;
+
+                        // Vi har fyra möjliga riktningar. Om direction är över
+                        // 3 (dvs, uppåt), så kommer vår kära modulo att göra så att den
+                        // går över till 0.
+                        ghosts[i].direction %= 4;
+                    }
+
+                    // Först av allt måste vi lägga tillbaka det som låg
+                    // på spökets förra position. Annars skulle det "äta"
+                    // upp saker som prickarna. leaveBehind sätt till att
+                    // det är en prick när spöket skapas. Så första gången
+                    // kommer spöket alltid att lämnan en prick efter sig.
+                    maze[oldY, oldX] = ghosts[i].leaveBehind;
+
+                    // Spara undan det som ligger på spökets nya position
+                    // så vi inte äter/skriver över det.
+                    ghosts[i].leaveBehind = maze[ghosts[i].y, ghosts[i].x];
+
+                    // Sätt ut spöket på sin nya position
+                    maze[ghosts[i].y, ghosts[i].x] = _ghost;
                 }
-
-                if (ghosts[i].direction == _left)
-                {
-                    ghosts[i].x--;
-                }
-
-                if (ghosts[i].direction == _up)
-                {
-                    ghosts[i].y--;
-                }
-
-                // Körde vi in i en Pacman?
-                if (maze[ghosts[i].y, ghosts[i].x] == _pacman)
-                {
-                    // Döda Pacman
-                    _alive = false;
-
-                    // Ta bort Pacman från labyrinten
-                    maze[pacmanY, pacmanX] = _empty;
-                }
-
-                // Har vi krockat med en vägg eller ett annat spöke?
-                if (maze[ghosts[i].y, ghosts[i].x] == _wall ||
-                    maze[ghosts[i].y, ghosts[i].x] == _ghost)
-                {
-                    // Flytta tillbaka spöket till den tidigare
-                    // positionen
-                    ghosts[i].x = oldX;
-                    ghosts[i].y = oldY;
-
-                    // Öka i vilken riktning spöket ska gå.
-                    // Spöket kan röra sig i rikningarna som vi angav
-                    // som konstanter i början av koden. Dvs, _right = 0,
-                    // osv. Om spöket var på väg åt höger så ökar vi riktningen
-                    // då blir den 1, vilket betyder att den ska gå neråt
-                    // Osv...
-                    ghosts[i].direction++;
-
-                    // Vi har fyra möjliga riktningar. Om direction är över
-                    // 3 (dvs, uppåt), så kommer vår kära modulo att göra så att den
-                    // går över till 0.
-                    ghosts[i].direction %= 4;
-                }
-
-                // Först av allt måste vi lägga tillbaka det som låg
-                // på spökets förra position. Annars skulle det "äta"
-                // upp saker som prickarna. leaveBehind sätt till att
-                // det är en prick när spöket skapas. Så första gången
-                // kommer spöket alltid att lämnan en prick efter sig.
-                maze[oldY, oldX] = ghosts[i].leaveBehind;
-
-                // Spara undan det som ligger på spökets nya position
-                // så vi inte äter/skriver över det.
-                ghosts[i].leaveBehind = maze[ghosts[i].y, ghosts[i].x];
-
-                // Sätt ut spöket på sin nya position
-                maze[ghosts[i].y, ghosts[i].x] = _ghost;
             }
-
             // Här tvingar vi Windows att rita om formuläret.
             // Då körs vår OnPaint-metod som ritar ut hela labyrinten 
             Invalidate();
