@@ -588,7 +588,7 @@ namespace Maze2
                 }
 
 
-                for (int i = ghosts.Count; i >= 0; i--)
+                for (int i = ghosts.Count - 1; i >= 0; i--)
                 {
                     // Spara undan nuvarande position. Precis som i fallet
                     // med Pacman så vill vi kunna flytta tillbaka spöket
@@ -631,8 +631,10 @@ namespace Maze2
                     }
                     else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
                     {
-                        maze[ghosts[i].y, ghosts[i].x] = _empty;
+                        maze[oldY, oldX] = _empty;
                         ghosts.RemoveAt(i);
+                        continue;
+                       
                     }
 
                     // Har vi krockat med en vägg eller ett annat spöke?
