@@ -195,7 +195,7 @@ namespace Maze2
                     }
 
                     // Är det en prick?
-                    if (maze[j, i] == _dot)
+                    if (maze[j, i] == _dot || maze[j, i] == _powerpellet)
                     {
                         // Öka på antalet prickar i labyrinten
                         numDots++;
@@ -454,7 +454,7 @@ namespace Maze2
                 {
                     // En prick!
                     // Öka poängen
-                    score++;
+                    score += 10;
 
                     // Minska hur många prickar det finns i labyrinten
                     numDots--;
@@ -462,8 +462,8 @@ namespace Maze2
                 if (maze[pacmanY, pacmanX] == _powerpellet)
                 {
                     _poweredUp = true;
-                    score += 5;
-
+                    score += 50;
+                    numDots--;
                 }
 
                 // Sätt ut ett tomrum där Pacman stod förut
