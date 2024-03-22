@@ -18,9 +18,15 @@ namespace Maze2
         {
             InitializeComponent();
         }
-
+        void initalizeSound()
+        {
+            System.Media.SoundPlayer GameMusic = new System.Media.SoundPlayer(Properties.Resources.ytmp3free_cc_pacman_original_theme_youtubemp3free_org);
+            GameMusic.Play();
+        }
+        
         private void button1_Click(object sender, EventArgs e)
         {
+            initalizeSound();
             gameForm.ShowDialog();
             this.Close();
         }

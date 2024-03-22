@@ -37,14 +37,15 @@
             timer1.Enabled = true;
             timer1.Tick += timer1_Tick;
             // 
-            // Form1
+            // Game
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Black;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1143, 750);
             DoubleBuffered = true;
-            Name = "Form1";
+            Margin = new Padding(4, 5, 4, 5);
+            Name = "Game";
             Text = "Form1";
             KeyDown += Form1_KeyDown;
             KeyUp += Form1_KeyUp;

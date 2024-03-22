@@ -385,6 +385,8 @@ namespace Maze2
         /// </summary>
         /// <param name="sender">Vad orsakade händelsen? (Timer1)</param>
         /// <param name="e">Data om händelsen (inget vi bryr oss i)</param>
+        /// 
+        
         private void timer1_Tick(object sender, EventArgs e)
         {
             // Först hanterar vi Pacman
