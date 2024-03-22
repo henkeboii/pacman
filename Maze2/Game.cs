@@ -3,7 +3,7 @@ namespace Maze2
     /// <summary>
     /// Formuläret som vårt spel kommer att köras i
     /// </summary>
-    public partial class Form1 : Form
+    public partial class Game : Form
     {
         /// <summary>
         /// Den första labyrinten som vår Pacman ska kämpa i.
@@ -125,7 +125,9 @@ namespace Maze2
         /// <summary>
         /// Grundformuläret som vårt spel körs i
         /// </summary>
-        public Form1()
+        /// 
+        
+        public Game()
         {
             // Starta upp formuläret/fönstret
             InitializeComponent();
@@ -234,7 +236,7 @@ namespace Maze2
             // fönster och då behöver man kunna hantera vilket fönster
             // som ska användas. I vårt spel kommer det aldrig att hända
             Graphics g = e.Graphics;
-
+            
             // Vi gör loopar som går igenom hela labyrinten. Vi går igenom
             // rad för rad och på varje rad går vi genom alla kolumner
             // som finns på raden
