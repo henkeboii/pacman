@@ -513,6 +513,11 @@ namespace Maze2
                     pacmanY++;
                 }
 
+                if (maze[pacmanY, pacmanX] == _ghost)
+                {
+                    _alive = false;
+                }
+
                 // Krockade vi just med en vägg?
                 // Vi kollar det genom att titta i arrayen på den
                 // positionen vi just räknat ut i föregående rörelsekod
