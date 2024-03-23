@@ -14,39 +14,40 @@ namespace Maze2
     public partial class StartMenu : Form
     {
 
-        public class Sound
-        {
-            private MediaPlayer m_mediaPlayer;
-            public void Play()
-            {
-                m_mediaPlayer = new MediaPlayer();
-                m_mediaPlayer.Open(new Uri("file:///c:/pacman-theme.wav"));
-                m_mediaPlayer.Play();
-            }
-
-            // `volume` is assumed to be between 0 and 100.
-            public void SetVolume(int volume)
-            {
-                // MediaPlayer volume is a float value between 0 and 1.
-                m_mediaPlayer.Volume = volume / 100.0f;
-            }
-        }
 
         Game gameForm = new Game();
+
+        Sound GameMusic = new Sound();
 
         public StartMenu()
         {
             InitializeComponent();
+            initializeAudio();
         }
-        
-        
-        private void button1_Click(object sender, EventArgs e)
-        {
-            Sound GameMusic = new Sound();
-            GameMusic.Play();
 
+        void initializeAudio()
+        {
+            GameMusic.Play();
+        }
+
+        private void startButton_Click(object sender, EventArgs e)
+        {
             gameForm.ShowDialog();
             this.Close();
         }
+
+        private void settingsButton_Click(object sender, EventArgs e)
+        {
+            Settings settings = new Settings();
+
+            settings.ShowDialog();
+
+            if (settings.ShowDialog() == DialogResult.OK)
+            {
+                GameMusic.SetVolume(settings.Volume);
+            }
+        }
+        
+        
     }
 }

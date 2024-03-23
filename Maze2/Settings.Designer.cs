@@ -28,30 +28,44 @@
         /// </summary>
         private void InitializeComponent()
         {
-            textBox1 = new TextBox();
+            numericUpDown1 = new NumericUpDown();
+            button1 = new Button();
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
-            // textBox1
+            // numericUpDown1
             // 
-            textBox1.Location = new Point(0, 0);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(150, 31);
-            textBox1.TabIndex = 0;
+            numericUpDown1.Location = new Point(0, 0);
+            numericUpDown1.Name = "numericUpDown1";
+            numericUpDown1.Size = new Size(120, 31);
+            numericUpDown1.TabIndex = 4;
+            numericUpDown1.ValueChanged += numericUpDown1_ValueChanged;
+            // 
+            // button1
+            // 
+            button1.Location = new Point(214, 12);
+            button1.Name = "button1";
+            button1.Size = new Size(112, 34);
+            button1.TabIndex = 5;
+            button1.Text = "button1";
+            button1.UseVisualStyleBackColor = true;
+            button1.Click += button1_Click;
             // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
-            Controls.Add(textBox1);
+            Controls.Add(button1);
+            Controls.Add(numericUpDown1);
             Name = "Settings";
             Text = "Settings";
+            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private TextBox textBox1;
+        private NumericUpDown numericUpDown1;
+        private Button button1;
     }
 }

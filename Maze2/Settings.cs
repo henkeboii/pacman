@@ -4,9 +4,11 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Media;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Navigation;
 
 namespace Maze2
 {
@@ -15,6 +17,19 @@ namespace Maze2
         public Settings()
         {
             InitializeComponent();
+        }
+
+        public int Volume;
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Volume = Convert.ToByte(numericUpDown1.Value);
+            this.Close();
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            Volume = Convert.ToByte(numericUpDown1.Value);
         }
     }
 }

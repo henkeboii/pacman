@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             startButton = new Button();
+            settingsButton = new Button();
             SuspendLayout();
             // 
             // startButton
@@ -39,21 +40,33 @@
             startButton.TabIndex = 0;
             startButton.Text = "Start game";
             startButton.UseVisualStyleBackColor = true;
-            startButton.Click += button1_Click;
+            startButton.Click += startButton_Click;
+            // 
+            // settingsButton
+            // 
+            settingsButton.Location = new Point(258, 0);
+            settingsButton.Name = "settingsButton";
+            settingsButton.Size = new Size(112, 34);
+            settingsButton.TabIndex = 1;
+            settingsButton.Text = "Settings";
+            settingsButton.UseVisualStyleBackColor = true;
+            settingsButton.Click += settingsButton_Click;
             // 
             // StartMenu
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(800, 450);
+            Controls.Add(settingsButton);
             Controls.Add(startButton);
             Name = "StartMenu";
-            Text = "Form2";
+            Text = "Pac-Man Launcher";
             ResumeLayout(false);
         }
 
         #endregion
 
         private Button startButton;
+        private Button settingsButton;
     }
 }
