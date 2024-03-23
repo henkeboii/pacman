@@ -16,15 +16,17 @@ namespace Maze2
         /// </summary>
         int[,] mazeOriginal1 =
         {
-            { 1,1,1,1,1,1,1,1,1,1,1}, // 1
-            { 1,5,2,2,2,4,2,2,2,5,1}, // 2
-            { 1,2,1,1,1,2,1,1,1,2,1}, // 3
-            { 1,2,1,2,2,2,2,2,1,2,1}, // 4
-            { 1,2,2,2,1,1,1,2,2,2,1},
-            { 1,2,1,2,2,2,2,2,1,2,1}, // 4
-            { 1,2,1,1,1,3,1,1,1,2,1}, // 3
-            { 1,5,2,2,2,2,2,2,2,5,1}, // 2
-            { 1,1,1,1,1,1,1,1,1,1,1}  // 1
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0},
+            { 0,1,1,1,1,1,1,1,1,1,1,1,0}, // 1
+            { 0,1,5,2,2,2,4,2,2,2,5,1,0}, // 2
+            { 0,1,2,1,1,1,2,1,1,1,2,1,0}, // 3
+            { 0,1,2,1,2,2,2,2,2,1,2,1,0}, // 4
+            { 0,1,2,2,2,1,1,1,2,2,2,1,0},
+            { 0,1,2,1,2,2,2,2,2,1,2,1,0}, // 4
+            { 0,1,2,1,1,1,3,1,1,1,2,1,0}, // 3
+            { 0,1,5,2,2,2,2,2,2,2,5,1,0}, // 2
+            { 0,1,1,1,1,1,1,1,1,1,1,1,0},  // 1
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
 
         int[,] mazeOriginal2 =
@@ -227,9 +229,11 @@ namespace Maze2
             // varje grej. SolidBrush är till för att göra helfyllda
             // saker.
             SolidBrush wall = new SolidBrush(Color.Blue);
+            SolidBrush innerWall = new SolidBrush(Color.Black);
             SolidBrush dot = new SolidBrush(Color.White);
             SolidBrush pacman = new SolidBrush(Color.Yellow);
             SolidBrush ghost = new SolidBrush(Color.Red);
+
 
             // Här tar vi ut data om vilket fönster vi ska
             // rita i. Den här metoden skulle kunna anropas av olika
@@ -262,6 +266,63 @@ namespace Maze2
                             _blockSize,         // Bred
                             _blockSize          // Höjd
                             );
+                        if (maze[j - 1, i] == _wall)
+                        {
+                            g.FillRectangle(
+                            innerWall,               // Färg
+                            i * _blockSize + _blockSize / 4,     // X-position till blockets vänstra kant
+                                                                 // Varje block är _blocksize brett
+                                                                 // och därför måste vi multiplicera
+                                                                 // med den storleken för att komma
+                                                                 // till nästa block.
+                            j * _blockSize,     // Y-position till blockets översta kant
+                            _blockSize / 2,         // Bred
+                            _blockSize / 2 + _blockSize / 4          // Höjd
+                            );
+                        }
+                        if (maze[j + 1, i] == _wall)
+                        {
+                            g.FillRectangle(
+                            innerWall,               // Färg
+                            i * _blockSize + _blockSize / 4,     // X-position till blockets vänstra kant
+                                                                 // Varje block är _blocksize brett
+                                                                 // och därför måste vi multiplicera
+                                                                 // med den storleken för att komma
+                                                                 // till nästa block.
+                            j * _blockSize + _blockSize / 4,     // Y-position till blockets översta kant
+                            _blockSize / 2,         // Bred
+                            _blockSize / 2 + _blockSize / 4          // Höjd
+                            );
+                        }
+                        if (maze[j, i - 1] == _wall)
+                        {
+                            g.FillRectangle(
+                            innerWall,               // Färg
+                            i * _blockSize,     // X-position till blockets vänstra kant
+                                                                 // Varje block är _blocksize brett
+                                                                 // och därför måste vi multiplicera
+                                                                 // med den storleken för att komma
+                                                                 // till nästa block.
+                            j * _blockSize + _blockSize / 4,     // Y-position till blockets översta kant
+                            _blockSize / 2 + _blockSize / 4,         // Bred
+                            _blockSize / 2          // Höjd
+                            );
+                        }
+                        if (maze[j, i + 1] == _wall)
+                        {
+                            g.FillRectangle(
+                            innerWall,               // Färg
+                            i * _blockSize + _blockSize / 4,     // X-position till blockets vänstra kant
+                                                // Varje block är _blocksize brett
+                                                // och därför måste vi multiplicera
+                                                // med den storleken för att komma
+                                                // till nästa block.
+                            j * _blockSize + _blockSize / 4,     // Y-position till blockets översta kant
+                            _blockSize / 2 + _blockSize / 4,         // Bred
+                            _blockSize / 2          // Höjd
+                            );
+                        }
+
                     }
 
                     // Är det en prick?
