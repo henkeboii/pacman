@@ -29,5 +29,7 @@ namespace Maze2
         /// Vad ska spöket lämna efter sig.
         /// </summary>
         public int leaveBehind = 2;
+
+        public bool clockwiseMotion = true;
     }
 }

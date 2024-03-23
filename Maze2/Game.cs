@@ -91,7 +91,7 @@ namespace Maze2
 
 
         int _elapsedPowerUpTime = 0;
-        const int _maximumPowerUpTime = 20;
+        const int _maximumPowerUpTime = 200;
         bool _poweredUp = false;
         /// <summary>
         /// Pacmans X-position
@@ -176,7 +176,7 @@ namespace Maze2
                     if (maze[j, i] == _ghost)
                     {
                         // Lägg till spöket i listan
-                        AddGhost(i, j, 0, 2);
+                        AddGhost(i, j, 0, 2, true);
 
                         // Spöken lämnar alltid efter sig en prick när de
                         // startar så vi ökar antalet prickar i labyrinten
@@ -473,6 +473,9 @@ namespace Maze2
             int oldX = pacmanX;
             int oldY = pacmanY;
 
+            double oldDistance;
+            double newDistance;
+
             // Om Pacman lever så kör vi igenom koden som sköter honom
             // annars skippar vi koden och gå vidare med spökena
             if (_alive)
@@ -612,6 +615,18 @@ namespace Maze2
                     ghosts[i].y--;
                 }
 
+                oldDistance = Math.Sqrt(Math.Pow(pacmanX - oldX, 2) + Math.Pow(pacmanY - oldY, 2));
+                newDistance = Math.Sqrt(Math.Pow(pacmanX - ghosts[i].x, 2) + Math.Pow(pacmanY - ghosts[i].y, 2));
+
+                if (_poweredUp && newDistance < oldDistance)
+                {
+                    ReverseGhost(ghosts[i]);
+                }
+
+                if (!_poweredUp && newDistance > oldDistance)
+                {
+                    ReverseGhost(ghosts[i]);
+                }
                 // Körde vi in i en Pacman?
                 if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
                 {
@@ -629,8 +644,7 @@ namespace Maze2
                 }
 
                 // Har vi krockat med en vägg eller ett annat spöke?
-                if (maze[ghosts[i].y, ghosts[i].x] == _wall ||
-                    maze[ghosts[i].y, ghosts[i].x] == _ghost)
+                if (maze[ghosts[i].y, ghosts[i].x] == _wall)
                 {
                     // Flytta tillbaka spöket till den tidigare
                     // positionen
@@ -643,8 +657,15 @@ namespace Maze2
                     // osv. Om spöket var på väg åt höger så ökar vi riktningen
                     // då blir den 1, vilket betyder att den ska gå neråt
                     // Osv...
-                    ghosts[i].direction++;
+                    if (ghosts[i].clockwiseMotion)
+                    {
+                        ghosts[i].direction++;
+                    }
 
+                    else
+                    {
+                        ghosts[i].direction += 3;
+                    }
                     // Vi har fyra möjliga riktningar. Om direction är över
                     // 3 (dvs, uppåt), så kommer vår kära modulo att göra så att den
                     // går över till 0.
@@ -678,7 +699,7 @@ namespace Maze2
         /// <param name="y">Y postion</param>
         /// <param name="direction">Starting direction</param>
         /// <param name="leaveBehind">What to leave behind</param>
-        void AddGhost(int x, int y, int direction, int leaveBehind)
+        void AddGhost(int x, int y, int direction, int leaveBehind, bool clockWiseMotion)
         {
             // Vi skapar först ett nytt objekt från vår klass (Ghost)
             // Det kommer att bli satt till de defaultvärden vi har i
@@ -695,7 +716,16 @@ namespace Maze2
             ghosts[lastGhost].y = y;
             ghosts[lastGhost].leaveBehind = leaveBehind;
             ghosts[lastGhost].direction = direction;
+            ghosts[lastGhost].clockwiseMotion = clockWiseMotion;
         }
+
+        void ReverseGhost(Ghost ghost)
+        {
+            ghost.direction += 2;
+            ghost.clockwiseMotion = !ghost.clockwiseMotion;
+            ghost.direction %= 4;
+        }
+
 
         // När vi släpper upp en tangent ska Pacman sluta röra sig
         // Det här skulle nog kunna göras bättre, men...
