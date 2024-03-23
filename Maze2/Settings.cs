@@ -24,12 +24,8 @@ namespace Maze2
         private void button1_Click(object sender, EventArgs e)
         {
             Volume = Convert.ToByte(numericUpDown1.Value);
+            this.DialogResult = DialogResult.OK;
             this.Close();
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            Volume = Convert.ToByte(numericUpDown1.Value);
         }
     }
 }

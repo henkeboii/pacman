@@ -13,8 +13,6 @@ namespace Maze2
 {
     public partial class StartMenu : Form
     {
-
-
         Game gameForm = new Game();
 
         Sound GameMusic = new Sound();
@@ -39,8 +37,6 @@ namespace Maze2
         private void settingsButton_Click(object sender, EventArgs e)
         {
             Settings settings = new Settings();
-
-            settings.ShowDialog();
 
             if (settings.ShowDialog() == DialogResult.OK)
             {
