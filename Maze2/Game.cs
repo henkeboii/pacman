@@ -548,97 +548,9 @@ namespace Maze2
                     }
                     else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
                     {
-                        maze[ghosts[i].y, ghosts[i].x] = _empty;
-                        ghosts.RemoveAt(i);
-                        continue;
-                    }
-
-                    // Har vi krockat med en vägg eller ett annat spöke?
-                    if (maze[ghosts[i].y, ghosts[i].x] == _wall ||
-                        maze[ghosts[i].y, ghosts[i].x] == _ghost)
-                    {
-                        // Flytta tillbaka spöket till den tidigare
-                        // positionen
-                        ghosts[i].x = oldX;
-                        ghosts[i].y = oldY;
-
-                        // Öka i vilken riktning spöket ska gå.
-                        // Spöket kan röra sig i rikningarna som vi angav
-                        // som konstanter i början av koden. Dvs, _right = 0,
-                        // osv. Om spöket var på väg åt höger så ökar vi riktningen
-                        // då blir den 1, vilket betyder att den ska gå neråt
-                        // Osv...
-                        ghosts[i].direction++;
-
-                        // Vi har fyra möjliga riktningar. Om direction är över
-                        // 3 (dvs, uppåt), så kommer vår kära modulo att göra så att den
-                        // går över till 0.
-                        ghosts[i].direction %= 4;
-                    }
-
-                    // Först av allt måste vi lägga tillbaka det som låg
-                    // på spökets förra position. Annars skulle det "äta"
-                    // upp saker som prickarna. leaveBehind sätt till att
-                    // det är en prick när spöket skapas. Så första gången
-                    // kommer spöket alltid att lämnan en prick efter sig.
-                    maze[oldY, oldX] = ghosts[i].leaveBehind;
-
-                    // Spara undan det som ligger på spökets nya position
-                    // så vi inte äter/skriver över det.
-                    ghosts[i].leaveBehind = maze[ghosts[i].y, ghosts[i].x];
-
-                    // Sätt ut spöket på sin nya position
-                    maze[ghosts[i].y, ghosts[i].x] = _ghost;
-                }
-
-
-                for (int i = ghosts.Count - 1; i >= 0; i--)
-                {
-                    // Spara undan nuvarande position. Precis som i fallet
-                    // med Pacman så vill vi kunna flytta tillbaka spöket
-                    // om det kolliderar med något
-                    oldX = ghosts[i].x;
-                    oldY = ghosts[i].y;
-
-                    // Åt vilket håll är spöket på väg?
-
-                    // Ska det åt höger?
-                    if (ghosts[i].direction == _right)
-                    {
-                        // Höger betyder att vi ökar X-positionen
-                        ghosts[i].x++;
-                    }
-
-                    if (ghosts[i].direction == _down)
-                    {
-                        ghosts[i].y++;
-                    }
-
-                    if (ghosts[i].direction == _left)
-                    {
-                        ghosts[i].x--;
-                    }
-
-                    if (ghosts[i].direction == _up)
-                    {
-                        ghosts[i].y--;
-                    }
-
-                    // Körde vi in i en Pacman?
-                    if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
-                    {
-                        // Döda Pacman
-                        _alive = false;
-
-                        // Ta bort Pacman från labyrinten
-                        maze[pacmanY, pacmanX] = _empty;
-                    }
-                    else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
-                    {
                         maze[oldY, oldX] = _empty;
                         ghosts.RemoveAt(i);
                         continue;
-                       
                     }
 
                     // Har vi krockat med en vägg eller ett annat spöke?
