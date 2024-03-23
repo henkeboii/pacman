@@ -274,8 +274,8 @@ namespace Maze2
                             // sen lägger vi till ett fjärdedels block på
                             // positionen (det ska vara en fjärdedel på alla sidor
                             // eftersom vi ska rita ut en prick som är ett halft block)
-                            i * _blockSize + _blockSize / 4,
-                            j * _blockSize + _blockSize / 4,
+                            i * _blockSize + (3 * _blockSize) / 8 ,
+                            j * _blockSize + (3 * _blockSize) / 8,
                             // Fyll halva blockets storlek
                             _blockSize / 4,
                             _blockSize / 4
