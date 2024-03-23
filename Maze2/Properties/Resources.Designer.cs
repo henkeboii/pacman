@@ -63,9 +63,9 @@ namespace Maze2.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
         /// </summary>
-        internal static System.IO.UnmanagedMemoryStream ytmp3free_cc_pacman_original_theme_youtubemp3free_org {
+        internal static System.IO.UnmanagedMemoryStream PacMan_Theme {
             get {
-                return ResourceManager.GetStream("ytmp3free.cc_pacman-original-theme-youtubemp3free.org", resourceCulture);
+                return ResourceManager.GetStream("PacMan-Theme", resourceCulture);
             }
         }
     }
