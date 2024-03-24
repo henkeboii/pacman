@@ -15,17 +15,16 @@ namespace Maze2
     {
         Game gameForm = new Game();
 
-        Sound GameMusic = new Sound();
+        MediaPlayer music = new MediaPlayer();
+        
 
         public StartMenu()
         {
             InitializeComponent();
-            initializeAudio();
-        }
 
-        void initializeAudio()
-        {
-            GameMusic.Play();
+            music.MediaEnded += OnMediaEnded;
+
+            PlayMusic();
         }
 
         private void startButton_Click(object sender, EventArgs e)
@@ -34,14 +33,39 @@ namespace Maze2
             this.Close();
         }
 
+        /// <summary>
+        /// Öppnar settings
+        /// Ändrar musikvolymen till angivet värde i settings
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings(GameMusic.Volume);
+            Settings settings = new Settings(music.Volume);
 
             if (settings.ShowDialog() == DialogResult.OK)
             {
-                GameMusic.SetVolume(settings.Volume);
+                music.Volume = settings.Volume;
             }
+        }
+
+        private void PlayMusic()
+        {
+            music.Open(new Uri("file:///c:/pacman-theme.wav"));
+
+            music.Play();
+        }
+
+        /// <summary>
+        /// Eventet att spåret som music spelar upp
+        /// tar slut.
+        /// Då ska music upprepa spåret.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnMediaEnded(object? sender, EventArgs e)
+        {
+            PlayMusic();
         }
     }
 }

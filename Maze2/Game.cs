@@ -30,13 +30,15 @@ namespace Maze2
         };
 
         int[,] mazeOriginal2 =
-{
-            { 1,1,1,1,1,1,1,1,1,1,1}, // 1
-            { 1,2,2,2,2,4,2,2,2,2,1}, // 2
-            { 1,2,1,1,1,2,1,1,1,2,1}, // 3
-            { 1,2,1,1,1,3,1,1,1,2,1}, // 3
-            { 1,2,2,2,2,2,2,2,2,2,1}, // 2
-            { 1,1,1,1,1,1,1,1,1,1,1}  // 1
+        {
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0},
+            { 0,1,1,1,1,1,1,1,1,1,1,1,0}, // 1
+            { 0,1,2,2,2,2,4,2,2,2,2,1,0}, // 2
+            { 0,1,2,1,1,1,2,1,1,1,2,1,0}, // 3
+            { 0,1,2,1,1,1,3,1,1,1,2,1,0}, // 3
+            { 0,1,2,2,2,2,2,2,2,2,2,1,0}, // 2
+            { 0,1,1,1,1,1,1,1,1,1,1,1,0}, // 1
+            { 0,0,0,0,0,0,0,0,0,0,0,0,0}
         };
 
         /// <summary>
@@ -89,7 +91,9 @@ namespace Maze2
         const int _left = 2;
         const int _up = 3;
 
-
+        /// <summary>
+        /// Värden för att hålla reda på om Pac-Man har en aktiv power-up
+        /// </summary>
         const int _maximumPowerUpTime = 20;
         int _elapsedPowerUpTime = 0;
         bool _poweredUp = false;
@@ -268,60 +272,50 @@ namespace Maze2
                             _blockSize,         // Bred
                             _blockSize          // Höjd
                             );
-                        if (maze[j - 1, i] == _wall)
+
+                        //Om det finns en anslutande vägg ska det
+                        //ritas ut ett tomrum inom väggen, anslutet
+                        //till den anslutande väggen
+                        if (maze[j - 1, i] == _wall) //Om det finns en anslutande vägg ovanför blocket
                         {
                             g.FillRectangle(
-                            innerWall,               // Färg
-                            i * _blockSize + _blockSize / 4,     // X-position till blockets vänstra kant
-                                                                 // Varje block är _blocksize brett
-                                                                 // och därför måste vi multiplicera
-                                                                 // med den storleken för att komma
-                                                                 // till nästa block.
-                            j * _blockSize,     // Y-position till blockets översta kant
-                            _blockSize / 2,         // Bred
-                            _blockSize / 2 + _blockSize / 4          // Höjd
+                            innerWall,
+                            i * _blockSize + _blockSize / 4, //Tomrummet tar i det här fallet
+                                                             //upp ett halvt block i bredd och
+                                                             //därför ska det fin
+                            j * _blockSize,
+                            _blockSize / 2,
+                            _blockSize / 2 + _blockSize / 4
                             );
                         }
                         if (maze[j + 1, i] == _wall)
                         {
                             g.FillRectangle(
-                            innerWall,               // Färg
-                            i * _blockSize + _blockSize / 4,     // X-position till blockets vänstra kant
-                                                                 // Varje block är _blocksize brett
-                                                                 // och därför måste vi multiplicera
-                                                                 // med den storleken för att komma
-                                                                 // till nästa block.
-                            j * _blockSize + _blockSize / 4,     // Y-position till blockets översta kant
-                            _blockSize / 2,         // Bred
-                            _blockSize / 2 + _blockSize / 4          // Höjd
+                            innerWall,
+                            i * _blockSize + _blockSize / 4,
+                            j * _blockSize + _blockSize / 4,
+                            _blockSize / 2,
+                            _blockSize / 2 + _blockSize / 4
                             );
                         }
                         if (maze[j, i - 1] == _wall)
                         {
                             g.FillRectangle(
-                            innerWall,               // Färg
-                            i * _blockSize,     // X-position till blockets vänstra kant
-                                                                 // Varje block är _blocksize brett
-                                                                 // och därför måste vi multiplicera
-                                                                 // med den storleken för att komma
-                                                                 // till nästa block.
-                            j * _blockSize + _blockSize / 4,     // Y-position till blockets översta kant
-                            _blockSize / 2 + _blockSize / 4,         // Bred
-                            _blockSize / 2          // Höjd
+                            innerWall,
+                            i * _blockSize,
+                            j * _blockSize + _blockSize / 4,
+                            _blockSize / 2 + _blockSize / 4,
+                            _blockSize / 2
                             );
                         }
                         if (maze[j, i + 1] == _wall)
                         {
                             g.FillRectangle(
-                            innerWall,               // Färg
-                            i * _blockSize + _blockSize / 4,     // X-position till blockets vänstra kant
-                                                // Varje block är _blocksize brett
-                                                // och därför måste vi multiplicera
-                                                // med den storleken för att komma
-                                                // till nästa block.
-                            j * _blockSize + _blockSize / 4,     // Y-position till blockets översta kant
-                            _blockSize / 2 + _blockSize / 4,         // Bred
-                            _blockSize / 2          // Höjd
+                            innerWall,
+                            i * _blockSize + _blockSize / 4,
+                            j * _blockSize + _blockSize / 4,
+                            _blockSize / 2 + _blockSize / 4,  
+                            _blockSize / 2          
                             );
                         }
 
@@ -332,14 +326,10 @@ namespace Maze2
                     {
                         g.FillEllipse(
                             dot,
-                            // Prickarna är hälften så stora som ett block.
-                            // Vi räknar ut blocket precis som ovan
-                            // sen lägger vi till ett fjärdedels block på
-                            // positionen (det ska vara en fjärdedel på alla sidor
-                            // eftersom vi ska rita ut en prick som är ett halft block)
+                            //En prick tar upp en fjärdedels block och ska
+                            //därför ha 3/8 av ett block fritt åt alla håll
                             i * _blockSize + (3 * _blockSize) / 8 ,
                             j * _blockSize + (3 * _blockSize) / 8,
-                            // Fyll halva blockets storlek
                             _blockSize / 4,
                             _blockSize / 4
                             );
@@ -350,7 +340,6 @@ namespace Maze2
                             dot,
                             i * _blockSize + _blockSize / 4,
                             j * _blockSize + _blockSize / 4,
-                            // Fyll halva blockets storlek
                             _blockSize / 2,
                             _blockSize / 2
                             );
@@ -373,7 +362,7 @@ namespace Maze2
                     // Är det ett spöke?
                     if (maze[j, i] == _ghost)
                     {
-
+                        //Spöken ska vara blå om Pac-Man har en aktiv powerup, annars röda
                         if (!_poweredUp)
                         {
                             ghostColor = ghostRed;
@@ -474,6 +463,9 @@ namespace Maze2
             int oldX = pacmanX;
             int oldY = pacmanY;
 
+
+            //Värden för att jämföra avståndet mellan ett spöke och
+            //pacman före och efter ett steg
             double oldDistance;
             double newDistance;
 
@@ -517,6 +509,9 @@ namespace Maze2
                     pacmanY++;
                 }
 
+                //Den första av två kollisionskontroller.
+                //Om det inte kontrolleras två gånger kan
+                //Pac-Man köra rakt igenom ett spöke
                 if (maze[pacmanY, pacmanX] == _ghost)
                 {
                     _alive = false;
@@ -543,6 +538,8 @@ namespace Maze2
                     // Minska hur många prickar det finns i labyrinten
                     numDots--;
                 }
+
+                //Ligger det en powerpellet dit Pac-Man rör sig?
                 if (maze[pacmanY, pacmanX] == _powerpellet)
                 {
                     _poweredUp = true;
@@ -583,7 +580,10 @@ namespace Maze2
             // Vi går igeom alla spökena i listan ett efter ett
             // och gör allt som ska göras för varje spöke innan
             // vi går vidare till nästa
-            
+
+            //Spökena loopas över baklänges eftersom element i listan
+            //kan komma att tas bort under loopen
+
             for (int i = ghosts.Count - 1; i >= 0; i--)
             {
                 // Spara undan nuvarande position. Precis som i fallet
@@ -616,7 +616,7 @@ namespace Maze2
                     ghosts[i].y--;
                 }
 
-                // Körde vi in i en Pacman?
+                // Körde vi in i en Pacman utan powerup?
                 if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
                 {
                     // Döda Pacman
@@ -625,10 +625,15 @@ namespace Maze2
                     // Ta bort Pacman från labyrinten
                     maze[pacmanY, pacmanX] = _empty;
                 }
+                //Körde vi in i en Pac-Man med en aktiv powerup?
                 else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
                 {
+                    //Ta bort spöket från labyrinten och ge det frid
                     maze[oldY, oldX] = _empty;
                     ghosts.RemoveAt(i);
+
+                    //Skippa eventuella spöken på index i
+                    //eftersom det redan loopats över
                     continue;
                 }
 
@@ -643,9 +648,13 @@ namespace Maze2
                     // Öka i vilken riktning spöket ska gå.
                     // Spöket kan röra sig i rikningarna som vi angav
                     // som konstanter i början av koden. Dvs, _right = 0,
-                    // osv. Om spöket var på väg åt höger så ökar vi riktningen
-                    // då blir den 1, vilket betyder att den ska gå neråt
-                    // Osv...
+                    // osv.
+
+                    //Om spöket ska gå medsols kommer det rätt om
+                    //direction inkrementeras med ett.
+
+                    //Annars måste direction ökas på med tre.
+
                     if (ghosts[i].clockwiseMotion)
                     {
                         ghosts[i].direction++;
@@ -660,15 +669,24 @@ namespace Maze2
                     // går över till 0.
                     ghosts[i].direction %= 4;
                 }
+
+                //Dags att jämföra hur strategiskt spökets senaste steg var
+
+                //Tar fram nuvarande och tidigare avstånd mellan spöket och Pac-Man
+                //Pythagoras <3
                 oldDistance = Math.Sqrt(Math.Pow(pacmanX - oldX, 2) + Math.Pow(pacmanY - oldY, 2));
                 newDistance = Math.Sqrt(Math.Pow(pacmanX - ghosts[i].x, 2) + Math.Pow(pacmanY - ghosts[i].y, 2));
 
+                //Om pacman har en powerup vill spöket komma så långt bort från pacman som möjligt.
+                //Spöket ska därför vända om det går emot pacman
                 if (_poweredUp && newDistance < oldDistance)
                 {
                     ReverseGhost(ghosts[i]);
                 }
 
-                if (!_poweredUp && newDistance > oldDistance)
+                //Om pacman inte har en powerup vill spöket komma så nära pacman som möjligt.
+                //Spöket ska därför vända om det går ifrån pacman
+                else if (!_poweredUp && newDistance > oldDistance)
                 {
                     ReverseGhost(ghosts[i]);
                 }
@@ -700,6 +718,7 @@ namespace Maze2
         /// <param name="y">Y postion</param>
         /// <param name="direction">Starting direction</param>
         /// <param name="leaveBehind">What to leave behind</param>
+        /// <param name="clockWiseMotion">Rotational direction</param>
         void AddGhost(int x, int y, int direction, int leaveBehind, bool clockWiseMotion)
         {
             // Vi skapar först ett nytt objekt från vår klass (Ghost)
@@ -720,9 +739,14 @@ namespace Maze2
             ghosts[lastGhost].clockwiseMotion = clockWiseMotion;
         }
 
+        /// <summary>
+        /// Byter ett spökes riktning till den motsatta (höger -> vänster ex.)
+        /// </summary>
+        /// <param name="ghost"></param>
         void ReverseGhost(Ghost ghost)
         {
             ghost.direction += 2;
+            //Om spöket tidigare gick medsols ska det nu gå motsols och vice versa
             ghost.clockwiseMotion = !ghost.clockwiseMotion;
             ghost.direction %= 4;
         }

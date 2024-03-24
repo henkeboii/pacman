@@ -22,9 +22,17 @@ namespace Maze2
             VolumeAdjustment(volume);
         }
 
+        /// <summary>
+        /// Implementerar användarens inställningar.
+        /// Uppner-menyns värde (0-100) omvandlas till 
+        /// ett värde i intervallet 0 - 1 och sparas i Volume.
+        /// Settings avslutas sedan.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveButton_Click(object sender, EventArgs e)
         {
-            Volume = Convert.ToByte(numericUpDown1.Value);
+            Volume = Convert.ToDouble(numericUpDown1.Value) / 100;
 
             this.DialogResult = DialogResult.OK;
 
@@ -36,6 +44,11 @@ namespace Maze2
             VolumeAdjustment(0.5);
         }
 
+        /// <summary>
+        /// Justerar värdet på uppner-menyn 
+        /// till det aktuella värdet på musikspelarens volym
+        /// </summary>
+        /// <param name="volume"></param>
         private void VolumeAdjustment(double volume)
         {
             double adjustedValue;

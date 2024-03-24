@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.Windows.Media.MediaPlayer music = new System.Windows.Media.MediaPlayer();
             startButton = new Button();
             settingsButton = new Button();
             textBox1 = new TextBox();
