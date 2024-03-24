@@ -90,9 +90,10 @@ namespace Maze2
         const int _up = 3;
 
 
+        const int _maximumPowerUpTime = 20;
         int _elapsedPowerUpTime = 0;
-        const int _maximumPowerUpTime = 200;
         bool _poweredUp = false;
+
         /// <summary>
         /// Pacmans X-position
         /// </summary>
@@ -615,18 +616,6 @@ namespace Maze2
                     ghosts[i].y--;
                 }
 
-                oldDistance = Math.Sqrt(Math.Pow(pacmanX - oldX, 2) + Math.Pow(pacmanY - oldY, 2));
-                newDistance = Math.Sqrt(Math.Pow(pacmanX - ghosts[i].x, 2) + Math.Pow(pacmanY - ghosts[i].y, 2));
-
-                if (_poweredUp && newDistance < oldDistance)
-                {
-                    ReverseGhost(ghosts[i]);
-                }
-
-                if (!_poweredUp && newDistance > oldDistance)
-                {
-                    ReverseGhost(ghosts[i]);
-                }
                 // Körde vi in i en Pacman?
                 if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
                 {
@@ -670,6 +659,18 @@ namespace Maze2
                     // 3 (dvs, uppåt), så kommer vår kära modulo att göra så att den
                     // går över till 0.
                     ghosts[i].direction %= 4;
+                }
+                oldDistance = Math.Sqrt(Math.Pow(pacmanX - oldX, 2) + Math.Pow(pacmanY - oldY, 2));
+                newDistance = Math.Sqrt(Math.Pow(pacmanX - ghosts[i].x, 2) + Math.Pow(pacmanY - ghosts[i].y, 2));
+
+                if (_poweredUp && newDistance < oldDistance)
+                {
+                    ReverseGhost(ghosts[i]);
+                }
+
+                if (!_poweredUp && newDistance > oldDistance)
+                {
+                    ReverseGhost(ghosts[i]);
                 }
 
                 // Först av allt måste vi lägga tillbaka det som låg
