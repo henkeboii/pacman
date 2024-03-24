@@ -512,7 +512,7 @@ namespace Maze2
                 //Den första av två kollisionskontroller.
                 //Om det inte kontrolleras två gånger kan
                 //Pac-Man köra rakt igenom ett spöke
-                if (maze[pacmanY, pacmanX] == _ghost)
+                if (maze[pacmanY, pacmanX] == _ghost && !_poweredUp)
                 {
                     _alive = false;
                 }
@@ -575,6 +575,11 @@ namespace Maze2
                     return;
                 }
             }
+            //Om pacman inte lever skickas spelaren tillbaka till huvudmenyn
+            else
+            {
+                this.Close();
+            }
 
             // Koden för att hantera spökena
             // Vi går igeom alla spökena i listan ett efter ett
@@ -616,6 +621,19 @@ namespace Maze2
                     ghosts[i].y--;
                 }
 
+                //Andra steget i den första kontrollen
+                if (maze[oldY, oldX] == _pacman && _poweredUp)
+                {
+                    //Ta bort spöket från labyrinten och hjälp det över till andra sidan
+                    maze[oldY, oldX] = _empty;
+                    ghosts.RemoveAt(i);
+
+                    //Skippa eventuella spöken på index i
+                    //eftersom det redan loopats över
+                    continue;
+                }
+
+                //Andra kollisionskontrollen
                 // Körde vi in i en Pacman utan powerup?
                 if (maze[ghosts[i].y, ghosts[i].x] == _pacman && !_poweredUp)
                 {
@@ -625,10 +643,11 @@ namespace Maze2
                     // Ta bort Pacman från labyrinten
                     maze[pacmanY, pacmanX] = _empty;
                 }
+
                 //Körde vi in i en Pac-Man med en aktiv powerup?
                 else if (maze[ghosts[i].y, ghosts[i].x] == _pacman && _poweredUp)
                 {
-                    //Ta bort spöket från labyrinten och ge det frid
+                    //Ta bort spöket från labyrinten och hjälp det över till andra sidan
                     maze[oldY, oldX] = _empty;
                     ghosts.RemoveAt(i);
 
@@ -653,7 +672,10 @@ namespace Maze2
                     //Om spöket ska gå medsols kommer det rätt om
                     //direction inkrementeras med ett.
 
-                    //Annars måste direction ökas på med tre.
+                    //Om spöket ska gå motsols skulle direction behöva minska
+                    //med ett (tvärtom mot medsols) men för att slippa hantera
+                    //att direction blir negativt (_noMotion = -1) adderar vi
+                    //3 som är kongruent med -1 modulo 4. 
 
                     if (ghosts[i].clockwiseMotion)
                     {
@@ -672,7 +694,7 @@ namespace Maze2
 
                 //Dags att jämföra hur strategiskt spökets senaste steg var
 
-                //Tar fram nuvarande och tidigare avstånd mellan spöket och Pac-Man
+                //Tar fram nuvarande och tidigare avstånd mellan spöket och Pac-Man.
                 //Pythagoras <3
                 oldDistance = Math.Sqrt(Math.Pow(pacmanX - oldX, 2) + Math.Pow(pacmanY - oldY, 2));
                 newDistance = Math.Sqrt(Math.Pow(pacmanX - ghosts[i].x, 2) + Math.Pow(pacmanY - ghosts[i].y, 2));

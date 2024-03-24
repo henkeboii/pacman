@@ -13,8 +13,8 @@ namespace Maze2
 {
     public partial class StartMenu : Form
     {
-        Game gameForm = new Game();
-
+        //music kommer att spela upp PacMan-Theme.wav tills universums värmedöd
+        //eller att programmet avslutas, vilken som än kommer först.
         MediaPlayer music = new MediaPlayer();
         
 
@@ -27,10 +27,21 @@ namespace Maze2
             PlayMusic();
         }
 
+        /// <summary>
+        /// Om startknappen trycks ska spelfönstret öppnas och startmenyn döljas.
+        /// När spelfönstret stängs ska startmenyn synas igen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void startButton_Click(object sender, EventArgs e)
         {
+            Game gameForm = new Game();
+
+            this.Hide();
+
             gameForm.ShowDialog();
-            this.Close();
+
+            this.Show();
         }
 
         /// <summary>
@@ -43,12 +54,15 @@ namespace Maze2
         {
             Settings settings = new Settings(music.Volume);
 
-            if (settings.ShowDialog() == DialogResult.OK)
-            {
-                music.Volume = settings.Volume;
-            }
+            settings.ShowDialog();
+            
+            music.Volume = settings.Volume;
+            
         }
 
+        /// <summary>
+        /// Initiera Mediaplayern music
+        /// </summary>
         private void PlayMusic()
         {
             music.Open(new Uri("file:///c:/pacman-theme.wav"));

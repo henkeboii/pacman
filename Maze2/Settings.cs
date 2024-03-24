@@ -19,11 +19,15 @@ namespace Maze2
         public Settings(double volume)
         {
             InitializeComponent();
+
+            //VolumeAdjustment anropas här för att värdet i uppner-menyn
+            //ska överenstämma med värdet på musikvolymen då settings
+            //öppnades.
             VolumeAdjustment(volume);
         }
 
         /// <summary>
-        /// Implementerar användarens inställningar.
+        /// Sparar användarens inställningar.
         /// Uppner-menyns värde (0-100) omvandlas till 
         /// ett värde i intervallet 0 - 1 och sparas i Volume.
         /// Settings avslutas sedan.
@@ -32,30 +36,37 @@ namespace Maze2
         /// <param name="e"></param>
         private void saveButton_Click(object sender, EventArgs e)
         {
-            Volume = Convert.ToDouble(numericUpDown1.Value) / 100;
-
-            this.DialogResult = DialogResult.OK;
+            Volume = Convert.ToDouble(volumeMenu.Value) / 100;
 
             this.Close();
         }
 
+        /// <summary>
+        /// Återställer musikvolymens standardvärde på 0.5
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void resetButton_Click(object sender, EventArgs e)
         {
             VolumeAdjustment(0.5);
         }
 
         /// <summary>
+        /// Sätter Volume lika med parametern volume för att inte musikvolymen
+        /// ska bli 0 om settings stängs på annan väg än via saveButton.
         /// Justerar värdet på uppner-menyn 
         /// till det aktuella värdet på musikspelarens volym
         /// </summary>
         /// <param name="volume"></param>
         private void VolumeAdjustment(double volume)
         {
+            Volume = volume;
+
             double adjustedValue;
 
             adjustedValue = volume * 100;
 
-            numericUpDown1.Value = Convert.ToDecimal(adjustedValue);
+            volumeMenu.Value = Convert.ToDecimal(adjustedValue);
         }
     }
 }

@@ -28,19 +28,19 @@
         /// </summary>
         private void InitializeComponent()
         {
-            numericUpDown1 = new NumericUpDown();
+            volumeMenu = new NumericUpDown();
             saveButton = new Button();
             resetButton = new Button();
             textBox1 = new TextBox();
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)volumeMenu).BeginInit();
             SuspendLayout();
             // 
             // numericUpDown1
             // 
-            numericUpDown1.Location = new Point(12, 52);
-            numericUpDown1.Name = "numericUpDown1";
-            numericUpDown1.Size = new Size(120, 31);
-            numericUpDown1.TabIndex = 4;
+            volumeMenu.Location = new Point(12, 52);
+            volumeMenu.Name = "volumeMenu";
+            volumeMenu.Size = new Size(120, 31);
+            volumeMenu.TabIndex = 4;
             // 
             // saveButton
             // 
@@ -79,16 +79,16 @@
             Controls.Add(textBox1);
             Controls.Add(resetButton);
             Controls.Add(saveButton);
-            Controls.Add(numericUpDown1);
+            Controls.Add(volumeMenu);
             Name = "Settings";
             Text = "Settings";
-            ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)volumeMenu).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-        private NumericUpDown numericUpDown1;
+        private NumericUpDown volumeMenu;
         private Button saveButton;
         private Button resetButton;
         private TextBox textBox1;
