@@ -36,14 +36,12 @@ namespace Maze2
 
         private void settingsButton_Click(object sender, EventArgs e)
         {
-            Settings settings = new Settings();
+            Settings settings = new Settings(GameMusic.Volume);
 
             if (settings.ShowDialog() == DialogResult.OK)
             {
                 GameMusic.SetVolume(settings.Volume);
             }
         }
-        
-        
     }
 }

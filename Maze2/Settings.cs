@@ -14,18 +14,35 @@ namespace Maze2
 {
     public partial class Settings : Form
     {
-        public Settings()
+        public double Volume;
+
+        public Settings(double volume)
         {
             InitializeComponent();
+            VolumeAdjustment(volume);
         }
 
-        public int Volume;
-
-        private void button1_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
             Volume = Convert.ToByte(numericUpDown1.Value);
+
             this.DialogResult = DialogResult.OK;
+
             this.Close();
+        }
+
+        private void resetButton_Click(object sender, EventArgs e)
+        {
+            VolumeAdjustment(0.5);
+        }
+
+        private void VolumeAdjustment(double volume)
+        {
+            double adjustedValue;
+
+            adjustedValue = volume * 100;
+
+            numericUpDown1.Value = Convert.ToDecimal(adjustedValue);
         }
     }
 }

@@ -30,11 +30,12 @@
         {
             startButton = new Button();
             settingsButton = new Button();
+            textBox1 = new TextBox();
             SuspendLayout();
             // 
             // startButton
             // 
-            startButton.Location = new Point(0, 0);
+            startButton.Location = new Point(130, 60);
             startButton.Name = "startButton";
             startButton.Size = new Size(112, 34);
             startButton.TabIndex = 0;
@@ -44,7 +45,7 @@
             // 
             // settingsButton
             // 
-            settingsButton.Location = new Point(258, 0);
+            settingsButton.Location = new Point(130, 100);
             settingsButton.Name = "settingsButton";
             settingsButton.Size = new Size(112, 34);
             settingsButton.TabIndex = 1;
@@ -52,21 +53,34 @@
             settingsButton.UseVisualStyleBackColor = true;
             settingsButton.Click += settingsButton_Click;
             // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(130, 20);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new Size(112, 31);
+            textBox1.TabIndex = 2;
+            textBox1.Text = "PAC-MAN";
+            textBox1.TextAlign = HorizontalAlignment.Center;
+            // 
             // StartMenu
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(418, 149);
+            Controls.Add(textBox1);
             Controls.Add(settingsButton);
             Controls.Add(startButton);
             Name = "StartMenu";
             Text = "Pac-Man Launcher";
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
         private Button startButton;
         private Button settingsButton;
+        private TextBox textBox1;
     }
 }

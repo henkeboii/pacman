@@ -29,42 +29,68 @@
         private void InitializeComponent()
         {
             numericUpDown1 = new NumericUpDown();
-            button1 = new Button();
+            saveButton = new Button();
+            resetButton = new Button();
+            textBox1 = new TextBox();
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).BeginInit();
             SuspendLayout();
             // 
             // numericUpDown1
             // 
-            numericUpDown1.Location = new Point(0, 0);
+            numericUpDown1.Location = new Point(12, 52);
             numericUpDown1.Name = "numericUpDown1";
             numericUpDown1.Size = new Size(120, 31);
             numericUpDown1.TabIndex = 4;
             // 
-            // button1
+            // saveButton
             // 
-            button1.Location = new Point(214, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(112, 34);
-            button1.TabIndex = 5;
-            button1.Text = "button1";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            saveButton.Location = new Point(162, 96);
+            saveButton.Name = "saveButton";
+            saveButton.Size = new Size(112, 34);
+            saveButton.TabIndex = 5;
+            saveButton.Text = "Save";
+            saveButton.UseVisualStyleBackColor = true;
+            saveButton.Click += saveButton_Click;
+            // 
+            // resetButton
+            // 
+            resetButton.Location = new Point(10, 96);
+            resetButton.Name = "resetButton";
+            resetButton.Size = new Size(146, 34);
+            resetButton.TabIndex = 6;
+            resetButton.Text = "Reset to default";
+            resetButton.UseVisualStyleBackColor = true;
+            resetButton.Click += resetButton_Click;
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(12, 15);
+            textBox1.Name = "textBox1";
+            textBox1.ReadOnly = true;
+            textBox1.Size = new Size(72, 31);
+            textBox1.TabIndex = 7;
+            textBox1.Text = "Volume";
             // 
             // Settings
             // 
             AutoScaleDimensions = new SizeF(10F, 25F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(800, 450);
-            Controls.Add(button1);
+            ClientSize = new Size(328, 134);
+            Controls.Add(textBox1);
+            Controls.Add(resetButton);
+            Controls.Add(saveButton);
             Controls.Add(numericUpDown1);
             Name = "Settings";
             Text = "Settings";
             ((System.ComponentModel.ISupportInitialize)numericUpDown1).EndInit();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
         private NumericUpDown numericUpDown1;
-        private Button button1;
+        private Button saveButton;
+        private Button resetButton;
+        private TextBox textBox1;
     }
 }
