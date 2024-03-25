@@ -27,7 +27,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Audio\PacMan-Theme.wav" />
+    <Resource Include="Audio\PacMan-Theme.wav">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -55,6 +57,10 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
 
 </Project>

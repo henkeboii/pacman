@@ -59,14 +59,5 @@ namespace Maze2.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized resource of type System.IO.UnmanagedMemoryStream similar to System.IO.MemoryStream.
-        /// </summary>
-        internal static System.IO.UnmanagedMemoryStream PacMan_Theme {
-            get {
-                return ResourceManager.GetStream("PacMan-Theme", resourceCulture);
-            }
-        }
     }
 }
