@@ -13,6 +13,10 @@
     <EditorConfigFiles Remove="C:\Users\gripat\source\repos\Maze2\Maze2\.editorconfig" />
   </ItemGroup>
 
+	<ItemGroup>
+	  <None Remove="Audio\PacMan-Theme.wav" />
+	</ItemGroup>
+
   <ItemGroup>
     <None Include="C:\Users\gripat\source\repos\Maze2\Maze2\.editorconfig" />
   </ItemGroup>
@@ -20,6 +24,10 @@
   <ItemGroup>
     <PackageReference Include="EPP.PresentationCore" Version="1.0.0" />
     <PackageReference Include="WindowsBase_Core.STW" Version="4.0.30319.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Audio\PacMan-Theme.wav" />
   </ItemGroup>
 
   <ItemGroup>

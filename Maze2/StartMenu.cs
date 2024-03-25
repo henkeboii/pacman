@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO.Packaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,12 +62,11 @@ namespace Maze2
         }
 
         /// <summary>
-        /// Initiera Mediaplayern music
+        /// Initiera Mediaplayern music och börja spela musiken
         /// </summary>
         private void PlayMusic()
         {
-            music.Open(new Uri("file:///c:/pacman-theme.wav"));
-
+            music.Open(new Uri("Audio/PacMan-Theme.wav", UriKind.Relative));
             music.Play();
         }
 
