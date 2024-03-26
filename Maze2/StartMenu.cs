@@ -24,7 +24,7 @@ namespace Maze2
         {
             InitializeComponent();
 
-            music.MediaEnded += OnMediaEnded;
+            music.MediaEnded += OnMediaEnded; //Det inbyggda eventet MediaEnded i MediaPlayer-klassen ska hanteras av OnMediaEnded
 
             PlayMusic();
         }
@@ -58,7 +58,7 @@ namespace Maze2
 
             settings.ShowDialog();
             
-            music.Volume = settings.Volume;
+            music.Volume = settings.Volume; //Ändrar ljudvolymen till värdet på den public variabeln Volume i settings
             
         }
 
@@ -67,9 +67,9 @@ namespace Maze2
         /// </summary>
         private void PlayMusic()
         {
-            Uri projectFolder = new Uri(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName);
+            Uri projectFolder = new Uri(Directory.GetParent(Directory.GetCurrentDirectory()).Parent.FullName); //Uri till projektet Maze2 hos användaren
 
-            music.Open(new Uri(projectFolder, "Audio/PacMan-Theme.wav"));
+            music.Open(new Uri(projectFolder, "Audio/PacMan-Theme.wav")); //MediaPlayer-objektet ska öppna musikfilen som ligger i projectFolder
 
             music.Play();
         }
